@@ -47,8 +47,8 @@ function moduleProject3() {
     [nameP, idElement, dobP, favLanguageP].forEach((p)=>{
       container.appendChild(p)
     })
-    container.addEventListener('click', evt => {
-      document.querySelectorAll('.learner.card').forEach(container => {
+    container.addEventListener('click', event => {
+      document.querySelectorAll('.learner-card').forEach(container => {
         container.classList.remove('active')
       })
       container.classList.add('active')
@@ -83,7 +83,42 @@ function moduleProject3() {
 
   function buildFooter(footerData) {
     //  ✨ do your magic here
-    return document.createElement('footer')
+    let footer =  document.createElement('footer')
+    let companyInfoDiv = document.createElement('div')
+    companyInfoDiv.classList.add('company-info')
+    let companyNameP = document.createElement('p')
+    companyNameP.classList.add('company-name')
+    companyNameP.textContent = footerData.companyName
+    let addressP = document.createElement('p')
+    addressP.classList.add('address')
+    addressP.textContent = footerData.address
+    let contactEmailP = document.createElement('p')
+    contactEmailP.classList.add('contact-email')
+    contactEmailP.innerHTML = `Email: <a href="mailto:${footerData.contactEmail}"> ${footerData.contactEmail}</a>`
+
+     companyInfoDiv.appendChild(companyNameP)
+     companyInfoDiv.appendChild(addressP)
+     companyInfoDiv.appendChild(contactEmailP)
+
+     let socialMediaDiv = document.createElement('div')
+     socialMediaDiv.classList.add('social-media')
+
+     for(let platform in footerData.socialMedia){
+      let socialMediaLinks = document.createElement('a')
+      socialMediaLinks.href = footerData.socialMedia[platform]
+      socialMediaLinks.textContent = platform.charAt(0).toUpperCase() + platform.slice(1)
+      socialMediaDiv.appendChild(socialMediaLinks)
+     }
+     let currentYear = new Date().getFullYear()
+     let copyright = document.createElement('div')
+     copyright.textContent = `© ${footerData.companyName.toUpperCase()} ${currentYear}`
+
+
+     
+     footer.appendChild(companyInfoDiv)
+     footer.appendChild(socialMediaDiv)
+     footer.appendChild(copyright)
+    return footer
   }
 
   // ❗ DOM creation using your `buildFooter` component (do not change):
@@ -100,7 +135,12 @@ function moduleProject3() {
 
   // 👉 TASK 4 - Clicking on the section should deactivate the active card
 
-  //  ✨ do your magic here
+  document.addEventListener('click', evt => {
+    if(evt.target === document.querySelector('section')){
+      const learners = document.querySelectorAll('.learner-card')
+      learners.forEach(container => container.classList.remove('active'))
+    }
+  })
 }
 
 // ❗ DO NOT CHANGE THIS CODE
